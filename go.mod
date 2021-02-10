@@ -1,4 +1,4 @@
-module github.com/kvannotten/pcd
+module github.com/gryffyn/pcd
 
 go 1.15
 

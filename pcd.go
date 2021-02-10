@@ -27,9 +27,10 @@ import (
 	"os"
 	urlpath "path"
 	"path/filepath"
+	"strconv"
 	"strings"
 
-	"github.com/kvannotten/pcd/rss"
+	"github.com/gryffyn/pcd/rss"
 	"github.com/pkg/errors"
 )
 
@@ -51,6 +52,7 @@ type Episode struct {
 	Title string
 	Date  string
 	URL   string
+	ID    int
 }
 
 var (
@@ -181,7 +183,7 @@ func (p *Podcast) String() string {
 
 // Download downloads an episode in 'path'. The writer argument is optional
 // and will just mirror everything written into it (useful for tracking the speed)
-func (e *Episode) Download(path string, writer io.Writer) error {
+func (e *Episode) Download(path string, writer io.Writer, episodeID int) error {
 	u, err := url.Parse(e.URL)
 	if err != nil {
 		log.Printf("Parse episode url failed: %#v", err)
@@ -198,7 +200,9 @@ func (e *Episode) Download(path string, writer io.Writer) error {
 		q.Del(k)
 	}
 
-	filename := urlpath.Base(u.Path)
+	urlLen := len(urlpath.Base(u.Path))
+	filename := strconv.Itoa(episodeID) + "_" + strings.ReplaceAll(e.Title, " ", "_") + urlpath.Base(u.Path)[urlLen-4:urlLen]
+	/* filename := urlpath.Base(u.Path) */
 	fpath := filepath.Join(path, filename)
 
 	if _, err := os.Stat(fpath); !os.IsNotExist(err) {

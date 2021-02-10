@@ -25,7 +25,7 @@ import (
 	"strings"
 
 	"github.com/cheggaaa/pb"
-	"github.com/kvannotten/pcd"
+	"github.com/gryffyn/pcd"
 	"github.com/spf13/cobra"
 )
 
@@ -128,7 +128,7 @@ func downloadEpisode(podcast *pcd.Podcast, episodeN int) {
 	bar.ShowSpeed = true
 	bar.Start()
 
-	if err := episodeToDownload.Download(podcast.Path, bar); err != nil {
+	if err := episodeToDownload.Download(podcast.Path, bar, episodeN); err != nil {
 		log.Fatalf("Could not download episode: %#v", err)
 	}
 

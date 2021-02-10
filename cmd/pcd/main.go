@@ -15,7 +15,7 @@
 
 package main
 
-import "github.com/kvannotten/pcd/cmd"
+import "github.com/gryffyn/pcd/cmd"
 
 func main() {
 	cmd.Execute()
